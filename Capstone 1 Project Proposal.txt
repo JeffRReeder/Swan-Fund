@@ -1,0 +1,27 @@
+﻿Capstone 1 Project Proposal (Stock project) Jeff Reeder
+1. What goal will your website be designed to achieve?
+   1. Better use of API calls, faster load times, stored information (reduce duplications)
+2. What kind of users will visit your site? In other words, what is the demographic of your users?
+   1. 1 person, ME. It is intending to improve limits of google sheets file. I could always add other users for expansion.
+3. What data do you plan on using? You may have not picked your actual API yet, which is fine, just outline what kind of data you would like it to contain.
+   1. Stock API data. Some data is needed @1 min intervals (ex. Stock price), others don’t need updating > 60 days (ex. dividend pay dates ~90 days apart)
+4. In brief, outline your approach to creating your project (knowing that you may not know everything in advance and that these details might change later). Answer questions like the ones below, but feel free to add more information:
+   1. What does your database schema look like?
+      1. User login, linking table between users and Stock API data
+   2. What kinds of issues might you run into with your API?
+      1. Confirmed that unless I have 1 min updates to API I will never go over “free” Tier of API.
+      2. Drilling down JSON data for what I might need
+      3. Multiple calls to API for each stock symbol based on  API JSON structure
+   3. Is there any sensitive information you need to secure?
+      1. So far user password and API key
+   4. What functionality will your app include?
+      1. Main page (all stocks owned)
+         1. Detail/summary page (1 page for every stock)
+            1. All details here (profit/loss, # shares, dividend, etc)
+   5. What will the user flow look like?
+      1. Login/Signup
+      2. Show main summary of all stock this user owns in a list
+      3. Click on any stock, that goes to detailed page.
+      4. Different link/page for data entry (new BUY/SELL/etc)
+   6. What features make your site more than CRUD? Do you have any stretch goals? 
+      1. Automate the data entry from csv files (probably a personal goal after springboard)

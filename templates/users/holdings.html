@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}{{user.username}}'s Holdings{% endblock %}
+
+{% block content %} 
+<h1>{{user.username}}'s Stocks</h1></br>
+<div id="holding-table">
+    
+
+    <!-- You are user #: {{ user.id}}  Username: {{user.username}}
+    Your holdings are: 
+        {% for stock in stocks %}
+            {{ stock.ticker_symbol}}
+        {% endfor %} -->
+        
+    <table>
+        <thead>
+            <th id="co-name">Company Name</th>
+            <th>Ticker Symbol</th>
+            
+            <th>Latest Price</th>
+            <th>Previous Close</th>
+            <th>P/E ratio</th>
+            <th>52 Week High</th>
+            <th>52 Week Low</th>
+            <th>YTD Change</th>
+            <th>Ex Dividend Date</th>
+            <th>Next Earnings Date</th>
+            
+        </thead>
+        <tbody>
+        {% for API in stock_info %}
+        <tr>
+            <td class="align-left" id="co-name2" >{{API["companyName"]}}</td>
+            <td class="align-left">{{API["symbol"]}}</td>
+           
+            <td>{{API["latestPrice"]}}</td>
+            <td>{{API["previousClose"]}}</td>
+            <td>{{API["peRatio"]}}</td>
+            <td>{{API["week52High"]}}</td>
+            <td>{{API["week52Low"]}}</td>
+            <td>{{('%0.2f' | format(API["ytdChange"] * 100))}}%</td>
+            <td>{{API2["exDividendDate"]}}</td>
+            <td>{{API2["nextEarningsDate"]}}</td>
+        </tr>
+        {% endfor %}
+            <!-- for all data displayed
+            {% for key in API %}
+
+                <div>{{key}} ---- {{API[key]}}</div>
+            {% endfor %}
+            -->
+            
+        </tbody>
+    </table>
+
+    
+</div>
+</br>
+<form action="">
+    <!-- <a href="/users/{{ user.id }}/followers"></a> -->
+    <button id="add-transaction" class="btn btn-success text-light"><a href="/transactions">Add Transaction</a></button>
+</form>
+{% endblock %}
