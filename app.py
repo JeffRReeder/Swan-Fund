@@ -153,6 +153,7 @@ def list_user_holdings():
 
 @app.route('/holdings/<int:user_id>')
 def list_holding(user_id):
+    # you can use g.user
     user = User.query.get_or_404(user_id)
     
     ############################### "Pythonic" way ###################################################

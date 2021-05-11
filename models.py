@@ -31,8 +31,8 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     
 
-    stocks = db.relationship('UserStock')
-    transactions = db.relationship('Transaction')
+    #stocks = db.relationship('UserStock')
+    #transactions = db.relationship('Transaction')
     
 
     @classmethod
@@ -84,8 +84,8 @@ class Stock(db.Model):
     #owner = db.Column(db.Integer, db.ForeignKey('users.id'))
     company_name = db.Column(db.Text, nullable=False, unique=True)
     ticker_symbol = db.Column(db.Text, nullable=False, unique=True)
-    bug_bunny = db.relationship('UserStock')
-    daffy_duck = db.relationship('Transaction')
+    #bug_bunny = db.relationship('UserStock')
+    #daffy_duck = db.relationship('Transaction')
 
 
 
@@ -94,12 +94,12 @@ class UserStock(db.Model):
 
     __tablename__ = "users_stocks"
 
-    #id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    user = db.relationship('User')
+    user = db.relationship('User', backref='stocks')
 
-    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), primary_key=True)
-    stock = db.relationship('Stock')
+    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'),primary_key=True)
+    stock = db.relationship('Stock', backref='bug_bunny')
 
 
 
@@ -111,9 +111,9 @@ class Transaction(db.Model):
     __tablename__ = "transactions"
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    user = db.relationship('User')
+    user = db.relationship('User', backref='transactions')
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), primary_key=True)
-    stock = db.relationship('Stock')
+    stock = db.relationship('Stock', backref='daffy_duck')
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     #timestamp = db.Column(db.Date, default=datetime.utcnow())

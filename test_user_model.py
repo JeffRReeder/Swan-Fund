@@ -8,14 +8,14 @@
 import os
 from unittest import TestCase
 
-from models import db, User, Message, Follows
+from models import db, User, Stock, Transaction
 
 # BEFORE we import our app, let's set an environmental variable
 # to use a different database for tests (we need to do this
 # before we import our app, since that will have already
 # connected to the database
 
-os.environ['DATABASE_URL'] = "postgresql:///warbler-test"
+os.environ['DATABASE_URL'] = "postgresql:///stock-project-test"
 
 
 # Now we can import app
@@ -36,8 +36,8 @@ class UserModelTestCase(TestCase):
         """Create test client, add sample data."""
 
         User.query.delete()
-        Message.query.delete()
-        Follows.query.delete()
+        Stock.query.delete()
+        Transaction.query.delete()
 
         self.client = app.test_client()
 
