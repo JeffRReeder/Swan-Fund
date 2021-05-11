@@ -204,7 +204,9 @@ def list_transactions(user_id):
                             stock_split_ratio=stock_split_ratio)
         db.session.add(trans)
         db.session.commit()
-        return redirect('/transactions')
+        render_template('transactions_form.html', form=form)
+        #return redirect(f"/transactions/{user.id}")
+       
     else:
         return render_template('transactions_form.html', form=form)
 
