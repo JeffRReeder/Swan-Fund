@@ -180,10 +180,10 @@ def list_holding(user_id):
 
     return render_template('users/holdings.html', user=user, stock_info=stock_info, API2=dividend, stocks=stocks)
 
-@app.route('/transactions/<int:user_id>', methods=["GET", "POST"])
-def list_transactions(user_id):
+@app.route('/transactions', methods=["GET", "POST"])
+def list_transactions():
     
-    user = User.query.get_or_404(user_id)
+    user = g.user
     
     form = TransactionForm()
     if form.validate_on_submit():
@@ -195,7 +195,9 @@ def list_transactions(user_id):
         transaction_fees = form.transactionFees.data,
         stock_split_ratio = form.stockSplitRatio.data or None
 
+        stock = Stock.query.filter(stock_ticker )##########
         trans = Transaction(user_id=user.id,
+                            stock_id=stock.id,
                             transaction_type=transaction_type,
                             stock_ticker=stock_ticker, 
                             transacted_shares=transacted_shares,
@@ -204,11 +206,11 @@ def list_transactions(user_id):
                             stock_split_ratio=stock_split_ratio)
         db.session.add(trans)
         db.session.commit()
-        render_template('transactions_form.html', form=form)
+        render_template('transaction_form.html', form=form)
         #return redirect(f"/transactions/{user.id}")
        
     else:
-        return render_template('transactions_form.html', form=form)
+        return render_template('transaction_form.html', form=form)
 
 
 @app.route('/users/<int:user_id>/following')
