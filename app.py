@@ -192,7 +192,7 @@ def list_transactions():
         stock_ticker = form.stock_ticker.data,
         transacted_shares = form.transactedShares.data,
         transacted_price_per_share = form.transactedPricePerShare.data,
-        transaction_fees = form.transactionFees.data,
+        transaction_fees = form.transactionFees.data or 0.0,
         stock_split_ratio = form.stockSplitRatio.data or 0.0
 
         stock = Stock.query.filter(Stock.ticker_symbol == stock_ticker).first()
@@ -207,7 +207,6 @@ def list_transactions():
         db.session.add(trans)
         db.session.commit()
         return redirect('/transactions/list')
-        #return redirect(f"/transactions/{user.id}")
        
     else:
         return render_template('transaction_form.html', form=form)
@@ -237,64 +236,6 @@ def users_followers(user_id):
     user = User.query.get_or_404(user_id)
     return render_template('users/followers.html', user=user)
 
-
-@app.route('/users/follow/<int:follow_id>', methods=['POST'])
-def add_follow(follow_id):
-    """Add a follow for the currently-logged-in user."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    followed_user = User.query.get_or_404(follow_id)
-    g.user.following.append(followed_user)
-    db.session.commit()
-
-    return redirect(f"/users/{g.user.id}/following")
-
-
-@app.route('/users/stop-following/<int:follow_id>', methods=['POST'])
-def stop_following(follow_id):
-    """Have currently-logged-in-user stop following this user."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    followed_user = User.query.get(follow_id)
-    g.user.following.remove(followed_user)
-    db.session.commit()
-
-    return redirect(f"/users/{g.user.id}/following")
-
-@app.route('/users/<int:user_id>/likes', methods=["GET"])
-def show_likes(user_id):
-    if not g.user:
-        flash("Access Unauthorized", "danger")
-        return redirect('/')
-    user = User.query.get_or_404(user_id)
-    return render_template('users/likes.html', user=user, likes=user.likes)
-
-@app.route('/messages/<int:message_id>/like', methods=["POST"])
-def add_likes(message_id):
-    if not g.user:
-        flash("Access Unauthorized", "danger")
-        return redirect('/')
-
-    liked_message = Message.query.get_or_404(message_id)
-    if liked_message.user_id == g.user.id:
-        return abort(403)
-    
-    user_likes = g.user.likes
-
-    if liked_message in user_likes:
-        g.user.likes = [like for like in user_likes if like != liked_message]
-    else:
-        g.user.likes.append(liked_message)
-
-    db.session.commit()
-
-    return redirect('/')
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
@@ -341,58 +282,6 @@ def delete_user():
 
     return redirect("/signup")
 
-
-##############################################################################
-# Messages routes:
-
-@app.route('/messages/new', methods=["GET", "POST"])
-def messages_add():
-    """Add a message:
-
-    Show form if GET. If valid, update message and redirect to user page.
-    """
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    form = MessageForm()
-
-    if form.validate_on_submit():
-        msg = Message(text=form.text.data)
-        g.user.messages.append(msg)
-        db.session.commit()
-
-        return redirect(f"/users/{g.user.id}")
-
-    return render_template('messages/new.html', form=form)
-
-
-@app.route('/messages/<int:message_id>', methods=["GET"])
-def messages_show(message_id):
-    """Show a message."""
-
-    msg = Message.query.get_or_404(message_id)
-    return render_template('messages/show.html', message=msg)
-
-
-@app.route('/messages/<int:message_id>/delete', methods=["POST"])
-def messages_destroy(message_id):
-    """Delete a message."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    msg = Message.query.get_or_404(message_id)
-    if msg.user_id != g.user.id:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    db.session.delete(msg)
-    db.session.commit()
-
-    return redirect(f"/users/{g.user.id}")
 
 
 ##############################################################################

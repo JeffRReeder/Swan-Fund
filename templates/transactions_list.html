@@ -7,24 +7,32 @@
 <h1>Transactions Page</h1>
 <p class="lead">Your Transactions</p>
 <form method="GET">
-
-    {% for transaction in transactions %}
+<table>
+    <thead>
+        <!-- <th>Date</th> -->
+        <th id="co-name">Type</th>
+        <th id="co-name">Stock</th>
+        <th>Transacted Shares</th>
+        <th>Transacted Price/Share</th>
+        <th>Fees</th>
+        <th>Stock Split</th>
+    </thead>
+    <tbody>
+    {% for transaction in all_transactions %}
+    <tr>
+        <td>{{transaction["transaction_type"]}}</td>
+        <td>{{transaction["stock_ticker"]}}</td>
+        <td>{{transaction["transacted_shares"]}}</td>
+        <td>{{transaction["transacted_price_per_share"]}}</td>
+        <td>{{transaction["transaction_fees"]}}</td>
+        <td>{{transaction["stock_split_ratio"]}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
     
-    {% endfor %}
-    {{ form.hidden_tag() }}
-    {% for field in form 
-        if field.widget.input_type != 'hidden' %}
-    <p>
-        {{ field.label }}
-        {{ field (class_="form-control") }}
-
-        {% for error in field.errors %}
-        <span class="form-text text-danger">{{ error }}</span>
-        {% endfor %}
-    </p>
-    {% endfor %}
     
 </form>
-<p>these are your transactions</p>
+
 </div>
 {% endblock %}
