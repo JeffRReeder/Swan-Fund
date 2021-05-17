@@ -193,9 +193,9 @@ def list_transactions():
         transacted_shares = form.transactedShares.data,
         transacted_price_per_share = form.transactedPricePerShare.data,
         transaction_fees = form.transactionFees.data,
-        stock_split_ratio = form.stockSplitRatio.data or None
+        stock_split_ratio = form.stockSplitRatio.data or 0.0
 
-        stock = Stock.query.filter(stock_ticker )##########
+        stock = Stock.query.filter(Stock.ticker_symbol == stock_ticker).first()
         trans = Transaction(user_id=user.id,
                             stock_id=stock.id,
                             transaction_type=transaction_type,
@@ -206,23 +206,24 @@ def list_transactions():
                             stock_split_ratio=stock_split_ratio)
         db.session.add(trans)
         db.session.commit()
-        render_template('transaction_form.html', form=form)
+        return redirect('/transactions/list')
         #return redirect(f"/transactions/{user.id}")
        
     else:
         return render_template('transaction_form.html', form=form)
 
 
-@app.route('/users/<int:user_id>/following')
-def show_following(user_id):
-    """Show list of people this user is following."""
+@app.route('/transactions/list', methods=["GET"])
+def show_transactions():
+    """Show list of your transactions."""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    user = User.query.get_or_404(user_id)
-    return render_template('users/following.html', user=user)
+    user = g.user
+    all_transactions = Transaction.query.filter(Transaction.user_id == user.id).all()
+    return render_template('transactions_list.html', all_transactions=all_transactions)
 
 
 @app.route('/users/<int:user_id>/followers')

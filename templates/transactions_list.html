@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+
+<div id="transaction-form">
+<h1>Transactions Page</h1>
+<p class="lead">Your Transactions</p>
+<form method="GET">
+
+    {% for transaction in transactions %}
+    
+    {% endfor %}
+    {{ form.hidden_tag() }}
+    {% for field in form 
+        if field.widget.input_type != 'hidden' %}
+    <p>
+        {{ field.label }}
+        {{ field (class_="form-control") }}
+
+        {% for error in field.errors %}
+        <span class="form-text text-danger">{{ error }}</span>
+        {% endfor %}
+    </p>
+    {% endfor %}
+    
+</form>
+<p>these are your transactions</p>
+</div>
+{% endblock %}
