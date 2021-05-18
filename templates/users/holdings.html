@@ -23,7 +23,7 @@
         {% for API in stock_info %}
         <tr>
             <td class="align-left" id="co-name2" >{{API["companyName"]}}</td>
-            <td class="align-left">{{API["symbol"]}}</td>
+            <td class="align-left"><a href="/">{{API["symbol"]}}</a></td>
            
             <td>{{API["latestPrice"]}}</td>
             <td>{{API["previousClose"]}}</td>

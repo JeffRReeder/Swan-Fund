@@ -22,7 +22,7 @@
     <tr>
         <td>{{transaction["timestamp"].strftime('%Y-%m-%d')}}</td>
         <td>{{transaction["transaction_type"]}}</td>
-        <td>{{transaction["stock_ticker"]}}</td>
+        <td><a href="/">{{transaction["stock_ticker"]}}</a></td>
         <td>{{transaction["transacted_shares"]}}</td>
         <td>{{transaction["transacted_price_per_share"]}}</td>
         <td>{{transaction["transaction_fees"]}}</td>
