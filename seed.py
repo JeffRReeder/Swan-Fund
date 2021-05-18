@@ -39,7 +39,7 @@ db.session.commit()
 transaction1 = Transaction(
     user_id=user1.id,
     stock_id=stock1.id,
-    #timestamp=datetime(2021, 4, 27, 22, 43, 21, 722303), 
+    timestamp=datetime(2021, 4, 27, 22, 43, 21, 722303), 
     transaction_type="buy", 
     stock_ticker="CSCO", 
     transacted_shares=5.0, 

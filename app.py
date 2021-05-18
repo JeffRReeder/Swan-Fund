@@ -5,7 +5,7 @@ import requests, json
 from secrets import API_KEY
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-
+from datetime import datetime
 from forms import UserAddForm, LoginForm, TransactionForm, MessageForm, UserEditForm
 from models import db, connect_db, User, Stock, Transaction
 
@@ -187,7 +187,7 @@ def list_transactions():
     
     form = TransactionForm()
     if form.validate_on_submit():
-        #timestamp = form.timestamp.data
+        timestamp = form.timestamp.data
         transaction_type = form.transactionType.data,
         stock_ticker = form.stock_ticker.data,
         transacted_shares = form.transactedShares.data,
@@ -198,6 +198,7 @@ def list_transactions():
         stock = Stock.query.filter(Stock.ticker_symbol == stock_ticker).first()
         trans = Transaction(user_id=user.id,
                             stock_id=stock.id,
+                            timestamp=timestamp,
                             transaction_type=transaction_type,
                             stock_ticker=stock_ticker, 
                             transacted_shares=transacted_shares,

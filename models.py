@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, date
+from datetime import datetime
 from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt()
@@ -10,11 +10,9 @@ def connect_db(app):
 
     You should call this in your Flask app.
     """
-
     db.app = app
     db.init_app(app)
  
-
 # MODELS GO BELOW
 class User(db.Model):
     """User model"""
@@ -43,12 +41,10 @@ class User(db.Model):
         """
 
         hashed_pwd = bcrypt.generate_password_hash(pwd).decode('UTF-8')
-
         user = User(
             username=username,
             email=email,
             password=hashed_pwd,
-
         )
 
         db.session.add(user)
@@ -101,10 +97,6 @@ class UserStock(db.Model):
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'),primary_key=True)
     stock = db.relationship('Stock', backref='bug_bunny')
 
-
-
-
-
 class Transaction(db.Model):
     """Transaction Model"""
 
@@ -117,6 +109,7 @@ class Transaction(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     #timestamp = db.Column(db.Date, default=datetime.utcnow())
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     transaction_type = db.Column(db.Text, nullable=False)
     stock_ticker = db.Column(db.Text, nullable=False)
     transacted_shares = db.Column(db.Float, nullable=False)

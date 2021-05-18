@@ -25,7 +25,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[Length(min=3)])
 
 class TransactionForm(FlaskForm):
-    #timestamp = DateTimeField("Date", validators=[InputRequired()])
+    timestamp = DateTimeField("Date", validators=[InputRequired()])
     transactionType = SelectField("Type", choices=[('buy','BUY'),('sell','SELL'),('div','DIVIDEND'),('split','SPLIT')])
     stock_ticker = StringField("Stock", validators=[InputRequired(), Length(max=5)])
     transactedShares = FloatField("Transacted Shares", validators=[InputRequired()])
