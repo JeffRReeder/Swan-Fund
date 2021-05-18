@@ -187,7 +187,7 @@ def list_transactions():
     
     form = TransactionForm()
     if form.validate_on_submit():
-        timestamp = form.timestamp.data
+        timestamp = form.timestamp.data or datetime.utcnow(),
         transaction_type = form.transactionType.data,
         stock_ticker = form.stock_ticker.data,
         transacted_shares = form.transactedShares.data,

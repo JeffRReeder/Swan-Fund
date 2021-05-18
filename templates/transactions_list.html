@@ -9,7 +9,7 @@
 <form method="GET">
 <table>
     <thead>
-        <!-- <th>Date</th> -->
+        <th>Date</th>
         <th id="co-name">Type</th>
         <th id="co-name">Stock</th>
         <th>Transacted Shares</th>
@@ -20,7 +20,7 @@
     <tbody>
     {% for transaction in all_transactions %}
     <tr>
-        <!-- <td>{{transaction["timestamp"]}}</td> -->
+        <td>{{transaction["timestamp"].strftime('%Y-%m-%d')}}</td>
         <td>{{transaction["transaction_type"]}}</td>
         <td>{{transaction["stock_ticker"]}}</td>
         <td>{{transaction["transacted_shares"]}}</td>

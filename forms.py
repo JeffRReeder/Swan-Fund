@@ -3,6 +3,13 @@ from wtforms import StringField, PasswordField, DateTimeField, TextAreaField, Se
 from wtforms.validators import DataRequired, Email, Length, InputRequired, Optional
 
 
+stocks = ["ABBV", "ABC", "ABT", "ADM", "AFL", "AMP", "AOS", "BEN", "CAH", "CMCSA", "CMI",
+          "CSCO", "CVS", "ECL", "ED", "EV", "FAST", "FLO", "GD", "GIS", "HON", "HRL", 
+          "ITW", "KMB", "KO", "LEG", "LMT", "LOW", "MDT", "MMM", "NEP", "NOC", "O", "ORI",
+          "PBCT", "PFE", "PG", "QCOM", "RTX", "SBSI", "SPHD", "T", "TDS", "TGT", "TROW", 
+          "TXN", "UBSI", "UNP", "VFC", "VZ", "WBA", "WEC", "WEYS", "IVV", "AIEQ", "TSLA",
+          "AMNF", "BA", "CBRL", "DIS", "EAT", "JPM", "STX", "WDC", "WHG", "WSM", ".INX"]
+
 class MessageForm(FlaskForm):
     """Form for adding/editing messages."""
 
@@ -27,7 +34,8 @@ class LoginForm(FlaskForm):
 class TransactionForm(FlaskForm):
     timestamp = DateTimeField("Date", validators=[InputRequired()])
     transactionType = SelectField("Type", choices=[('buy','BUY'),('sell','SELL'),('div','DIVIDEND'),('split','SPLIT')])
-    stock_ticker = StringField("Stock", validators=[InputRequired(), Length(max=5)])
+    #stock_ticker = StringField("Stock", validators=[InputRequired(), Length(max=5)])
+    stock_ticker = SelectField("Stock", choices=[(st, st) for st in stocks])
     transactedShares = FloatField("Transacted Shares", validators=[InputRequired()])
     transactedPricePerShare = FloatField("Transacted Price/Share", validators=[InputRequired()])
     transactionFees = FloatField("Fees", validators=[Optional()])
