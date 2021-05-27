@@ -6,6 +6,7 @@ from secrets import API_KEY
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
+from wtforms.fields.html5 import DateField
 from forms import UserAddForm, LoginForm, TransactionForm, MessageForm, UserEditForm
 from models import db, connect_db, User, Stock, Transaction
 
@@ -194,7 +195,11 @@ def list_transactions():
         transacted_price_per_share = form.transactedPricePerShare.data,
         transaction_fees = form.transactionFees.data or 0.0,
         stock_split_ratio = form.stockSplitRatio.data or 0.0
-
+        # if stock is NOT in list
+            # add to list
+            # db.session.add(xxxx)
+            # db.session.commit()
+        # else continue
         stock = Stock.query.filter(Stock.ticker_symbol == stock_ticker).first()
         trans = Transaction(user_id=user.id,
                             stock_id=stock.id,

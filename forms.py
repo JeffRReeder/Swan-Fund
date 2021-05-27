@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateTimeField, TextAreaField, SelectField, FloatField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, Optional
-
+from wtforms.fields.html5 import DateField
 
 stocks = ["ABBV", "ABC", "ABT", "ADM", "AFL", "AMP", "AOS", "BEN", "CAH", "CMCSA", "CMI",
           "CSCO", "CVS", "ECL", "ED", "EV", "FAST", "FLO", "GD", "GIS", "HON", "HRL", 
@@ -32,9 +32,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[Length(min=3)])
 
 class TransactionForm(FlaskForm):
-    timestamp = DateTimeField("Date", validators=[InputRequired()])
+    
+    #timestamp = DateTimeField("Date", validators=[InputRequired()])
+    timestamp = DateField('DatePicker', format='%Y-%m-%d')
     transactionType = SelectField("Type", choices=[('buy','BUY'),('sell','SELL'),('div','DIVIDEND'),('split','SPLIT')])
-    #stock_ticker = StringField("Stock", validators=[InputRequired(), Length(max=5)])
+
     stock_ticker = SelectField("Stock", choices=[(st, st) for st in stocks])
     transactedShares = FloatField("Transacted Shares", validators=[InputRequired()])
     transactedPricePerShare = FloatField("Transacted Price/Share", validators=[InputRequired()])
